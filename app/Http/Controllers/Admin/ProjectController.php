@@ -17,10 +17,10 @@ class ProjectController extends Controller
         'project_date' => 'required|date',
     ];
     protected $customMessages = [
-        'title.required' => 'Missing title',
-        'content.required' => 'Missing content',
+        'title.required' => 'Title field cannot be empty',
+        'content.required' => 'Content field cannot be empty',
         'content.min' => 'Content must be at least :min characters',
-        'project_date.required' => 'Missing project date',
+        'project_date.required' => 'Please select a project date',
         'project_date.date' => 'Project date must be a valid date',
     ];
     /**
@@ -52,7 +52,7 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->validate($this->validationRules);
+        $data = $request->validate($this->validationRules, $this->customMessages);
         $data['author'] = Auth::user()->name;
         $data['slug'] = Str::slug($data['title']);
         $newProject = new Project();
@@ -100,7 +100,7 @@ class ProjectController extends Controller
         ]];
         $data = $request->validate($newRules, $this->customMessages);
         $project->update($data);
-        return redirect()->route('admin.projects.show', compact('project'));
+        return redirect()->route('admin.projects.index', compact('project'))->with('message', "Project $project->title has been edited")->with('alert-type', 'info');
     }
 
     /**
