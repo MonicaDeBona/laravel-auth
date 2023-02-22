@@ -24,8 +24,8 @@ Route::get('/', [GuestProjectController::class, 'index'])->name('guest.index');
 Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/projects/trashed', [AdminProjectController::class, 'trashed'])->name('projects.trashed');
-    // Route::post('/projects/{project}/restore', [AdminProjectController::class, 'restore']);
-    // Route::delete('/projects/{project}/force-delete', [AdminProjectController::class, 'forceDelete']);
+    Route::post('/projects/{project}/restore', [AdminProjectController::class, 'restore'])->name('projects.restore');
+    Route::delete('/projects/{project}/force-delete', [AdminProjectController::class, 'forceDelete'])->name('projects.force-delete');
     Route::resource('/projects', AdminProjectController::class);
 });
 
@@ -37,16 +37,3 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__ . '/auth.php';
-
-// {{-- <form class="d-inline" action="{{ route('admin.projects.restore', $project->id) }}" method="POST">
-//                                 @csrf
-//                                 <button type="submit" class="btn btn-success" title="restore"><i
-//                                         class="fa-solid fa-recycle"></i></button>
-//                             </form>
-//                             <form class="d-inline delete double-confirm"
-//                                 action="{{ route('books.force-delete', $project->id) }}" method="POST">
-//                                 @csrf
-//                                 @method('DELETE')
-//                                 <button type="submit" class="btn btn-danger" title="delete"><i
-//                                         class="fa-solid fa-trash"></i></button>
-//                             </form> --}}

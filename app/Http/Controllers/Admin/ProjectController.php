@@ -133,4 +133,30 @@ class ProjectController extends Controller
         $projects = Project::onlyTrashed()->get();
         return view('admin.projects.trashed', compact('projects'));
     }
+
+    /**
+     *  Restore project data
+     * 
+     * @param Project $project
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function restore($id)
+    {
+        Project::where('id', $id)->withTrashed()->restore();
+        return redirect()->route('admin.projects.index')->with('alert-message', "Restored successfully")->with('alert-type', 'success');
+    }
+
+    /**
+     * Force delete book data
+     * 
+     * @param Book $book
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function forceDelete($id)
+    {
+        Project::where('id', $id)->withTrashed()->forceDelete();
+        return redirect()->route('admin.projects.index')->with('alert-message', "Project deleted permanently")->with('alert-type', 'success');
+    }
 }

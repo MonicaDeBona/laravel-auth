@@ -28,11 +28,13 @@
                             <td>{{ $project->author }}</td>
                             <td>{{ $project->project_date }}</td>
                             <td class="text-end">
-                                <form class="d-inline" action="" method="POST">
+                                <form class="d-inline" action="{{ route('admin.projects.restore', $project->id) }}"
+                                    method="POST">
                                     @csrf
                                     <button type="submit" class="btn btn-success" title="restore">Restore</button>
                                 </form>
-                                <form class="d-inline delete double-confirm" action="" method="POST">
+                                <form class="d-inline delete"
+                                    action="{{ route('admin.projects.force-delete', $project->id) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger" title="delete">Delete</button>
