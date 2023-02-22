@@ -11,11 +11,6 @@ use Illuminate\Validation\Rule;
 
 class ProjectController extends Controller
 {
-    protected $validationRules = [
-        'title' => 'required|unique:projects',
-        'content' => 'required|min:10',
-        'project_date' => 'required|date',
-    ];
     protected $customMessages = [
         'title.required' => 'Title field cannot be empty',
         'content.required' => 'Content field cannot be empty',
@@ -23,6 +18,15 @@ class ProjectController extends Controller
         'project_date.required' => 'Please select a project date',
         'project_date.date' => 'Project date must be a valid date',
     ];
+
+    public function validationRules()
+    {
+        return [
+            'title' => 'required|unique:projects',
+            'content' => 'required|min:10',
+            'project_date' => 'required|date',
+        ];
+    }
     /**
      * Display a listing of the resource.
      *
@@ -52,7 +56,7 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->validate($this->validationRules, $this->customMessages);
+        $data = $request->validate($this->validationRules(), $this->customMessages);
         $data['author'] = Auth::user()->name;
         $data['slug'] = Str::slug($data['title']);
         $newProject = new Project();
@@ -95,9 +99,12 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
-        $newRules = [...$this->validationRules, 'title' => [
+        $newRules = $this->validationRules();
+
+        $newRules['title'] = [
             'required', Rule::unique('projects')->ignore($project->id),
-        ]];
+        ];
+
         $data = $request->validate($newRules, $this->customMessages);
         $project->update($data);
         return redirect()->route('admin.projects.index', compact('project'))->with('message', "Project $project->title has been edited")->with('alert-type', 'info');
@@ -113,5 +120,17 @@ class ProjectController extends Controller
     {
         $project->delete();
         return redirect()->route('admin.projects.index')->with('message', "Project $project->title has been deleted")->with('alert-type', 'danger');
+    }
+
+    /**
+     * Display a listing of trashed resources.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function trashed()
+    {
+
+        $projects = Project::onlyTrashed()->get();
+        return view('admin.projects.trashed', compact('projects'));
     }
 }

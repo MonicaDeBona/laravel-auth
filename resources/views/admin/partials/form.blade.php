@@ -27,8 +27,8 @@
             </div>
             <div class="mb-3 w-25">
                 <label for="project_date" class="form-label">Project date</label>
-                <input type="date" class="form-control @error('project_date') is-invalid @enderror" id="project_date"
-                    name="project_date" value="{{ old('project_date', $project->project_date) }}">
+                <input type="datetime-local" class="form-control @error('project_date') is-invalid @enderror"
+                    id="project_date" name="project_date" value="{{ old('project_date', $project->project_date) }}">
                 @error('project_date')
                     <div class="invalid-feedback">
                         {{ $message }}
@@ -37,7 +37,7 @@
             </div>
             <div class="form-outline mb-3">
                 <label for="project_content" class="form-label">Project content</label>
-                <textarea class="form-control @error('content') is-invalid @enderror" id="project_content" rows="10"
+                <textarea class="form-control @error('content') is-invalid @enderror" minlength="10" id="project_content" rows="10"
                     name="content">{{ old('content', $project->content) }}</textarea>
                 @error('content')
                     <div class="invalid-feedback">

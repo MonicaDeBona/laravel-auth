@@ -2,6 +2,9 @@
 
 @section('content')
     <div class="container">
+        <a href="{{ route('admin.projects.trashed') }}" class="btn btn-sm btn-primary">
+            Trashed
+        </a>
         @if (session('message'))
             <div class="alert alert-{{ session('alert-type') }}">
                 {{ session('message') }}
