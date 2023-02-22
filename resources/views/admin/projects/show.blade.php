@@ -10,10 +10,32 @@
                 <p class="card-text text-center">{{ $project->content }}</p>
                 <hr>
                 <p class="card-text text-center">
+                    <small class="text-muted">{{ $project->slug }}</small><br>
                     <small class="text-muted">Author: {{ $project->author }}</small><br>
                     <small class="text-muted">Posted on: {{ $project->project_date }}</small>
                 </p>
-                <a href="" class="btn btn-primary">Edit</a>
+                <div class="actions d-flex justify-content-between w-100">
+                    @if (isset($previousProject))
+                        <a href="{{ route('admin.projects.show', $previousProject->slug) }}"
+                            class="btn btn-primary">Previous</a>
+                    @else
+                        <a href="" class="btn btn-primary disabled">Previous</a>
+                    @endif
+                    <div class="main-actions">
+                        <a href="{{ route('admin.projects.edit', $project->slug) }}" class="btn btn-primary">Edit</a>
+                        <form action="{{ route('admin.projects.destroy', $project->slug) }}" method="POST"
+                            class="d-inline-block">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-md btn-danger">Delete</button>
+                        </form>
+                    </div>
+                    @if (isset($nextProject))
+                        <a href="{{ route('admin.projects.show', $nextProject->slug) }}" class="btn btn-primary">Next</a>
+                    @else
+                        <a href="" class="btn btn-primary disabled">Next</a>
+                    @endif
+                </div>
             </div>
         </div>
     </div>

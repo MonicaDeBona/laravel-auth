@@ -12,7 +12,7 @@ use Illuminate\Validation\Rule;
 class ProjectController extends Controller
 {
     protected $validationRules = [
-        'title' => ['required|unique:projects'],
+        'title' => 'required|unique:projects',
         'content' => 'required|min:10',
         'project_date' => 'required|date',
     ];
@@ -30,7 +30,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::all();
+        $projects = Project::orderBy('project_date', 'DESC')->paginate(15);
         return view('admin.projects.index', compact('projects'));
     }
 
@@ -70,7 +70,9 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        return view('admin.projects.show', compact('project'));
+        $previousProject = Project::where('project_date', '>', $project->project_date)->orderBy('project_date')->first();
+        $nextProject = Project::where('project_date', '<', $project->project_date)->orderBy('project_date', 'DESC')->first();
+        return view('admin.projects.show', compact('project', 'previousProject', 'nextProject'));
     }
 
     /**
@@ -97,6 +99,8 @@ class ProjectController extends Controller
             'required', Rule::unique('projects')->ignore($project->id),
         ]];
         $data = $request->validate($newRules, $this->customMessages);
+        $project->update($data);
+        return redirect()->route('admin.projects.show', compact('project'));
     }
 
     /**
@@ -105,8 +109,9 @@ class ProjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Project $project)
     {
-        //
+        $project->delete();
+        return redirect()->route('admin.projects.index')->with('message', "Project $project->title has been deleted")->with('alert-type', 'danger');
     }
 }

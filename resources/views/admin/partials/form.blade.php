@@ -1,6 +1,17 @@
 <form action="{{ route($routeName, $project) }}" method="POST" class="p-5">
     @csrf
     @method($method)
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                <li>
+                    @foreach ($errors->all() as $error)
+                        {{ $error }}
+                    @endforeach
+                </li>
+            </ul>
+        </div>
+    @endif
     <h5 class="mb-4">
         Author: <span class="fw-semibold">{{ Auth::user()->name }} </span>
     </h5>

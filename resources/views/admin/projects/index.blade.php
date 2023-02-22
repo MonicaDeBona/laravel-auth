@@ -2,6 +2,11 @@
 
 @section('content')
     <div class="container">
+        @if (session('message'))
+            <div class="alert alert-{{ session('alert-type') }}">
+                {{ session('message') }}
+            </div>
+        @endif
         <table class="table table-striped table-bordered table-hover mt-5">
             <thead class="table-dark">
                 <tr>
@@ -32,14 +37,21 @@
                             {{ $project->project_date }}
                         </td>
                         <td>
-                            <a href="{{ route('admin.projects.show', $project->id) }}"
+                            <a href="{{ route('admin.projects.show', $project->slug) }}"
                                 class="btn btn-sm btn-primary">Show</a>
-                            <a href="{{ route('admin.projects.edit', $project->id) }}"
+                            <a href="{{ route('admin.projects.edit', $project->slug) }}"
                                 class="btn btn-sm btn-success">Edit</a>
+                            <form action="{{ route('admin.projects.destroy', $project->slug) }}" method="POST"
+                                class="d-inline-block">
+                                @csrf
+                                @method('DELETE')
+                                <button class="btn btn-sm btn-danger">Delete</button>
+                            </form>
                         </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
+        {{ $projects->links() }}
     </div>
 @endsection
