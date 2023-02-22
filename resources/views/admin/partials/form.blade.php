@@ -1,3 +1,7 @@
+{{-- @if ($errors->any())
+    <div id="popup_message" class="d-none" data-type="warning"
+        data-message="We were unable to process your submission due to errors. Please review and try again."></div>
+@endif --}}
 <form action="{{ route($routeName, $project) }}" method="POST" class="p-5 needs-validation" novalidate>
     @csrf
     @method($method)
@@ -47,9 +51,13 @@
             </div>
         </div>
         <div class="card-footer">
-            <a href="{{ route('admin.projects.index') }}" class="btn btn-dark">Cancel</a>
-            <button type="submit" class="btn btn-success">Submit</button>
+            <a href="{{ route('admin.projects.index') }}" class="btn btn-dark"><i
+                    class="fa-solid fa-arrow-left"></i>&nbsp;</a>
+            <button type="submit" class="btn btn-success"><i class="fa-solid fa-save"></i>&nbsp;</button>
         </div>
     </div>
 
 </form>
+@section('script')
+    @vite('resources/js/confirmDelete.js')
+@endsection
