@@ -40,6 +40,3 @@
         </div>
     </div>
 @endsection
-@section('script')
-    @vite('resources/js/confirmDelete.js')
-@endsection

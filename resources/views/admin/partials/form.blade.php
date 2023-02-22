@@ -1,7 +1,3 @@
-{{-- @if ($errors->any())
-    <div id="popup_message" class="d-none" data-type="warning"
-        data-message="We were unable to process your submission due to errors. Please review and try again."></div>
-@endif --}}
 <form action="{{ route($routeName, $project) }}" method="POST" class="p-5 needs-validation" novalidate>
     @csrf
     @method($method)
@@ -56,8 +52,4 @@
             <button type="submit" class="btn btn-success"><i class="fa-solid fa-save"></i>&nbsp;</button>
         </div>
     </div>
-
 </form>
-@section('script')
-    @vite('resources/js/confirmDelete.js')
-@endsection

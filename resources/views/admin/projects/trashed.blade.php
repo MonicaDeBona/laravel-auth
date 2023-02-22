@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@include('partials.popup')
+
 @section('content')
     <div class="container">
         <div class="card-header py-5">
@@ -33,8 +33,8 @@
                                     @csrf
                                     <button type="submit" class="btn btn-success" title="restore">Restore</button>
                                 </form>
-                                <form class="d-inline delete double-confirm"
-                                    action="{{ route('admin.projects.force-delete', $project->id) }}" method="POST">
+                                <form class="d-inline" action="{{ route('admin.projects.force-delete', $project->id) }}"
+                                    method="POST">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger" title="delete">Delete</button>
@@ -50,7 +50,4 @@
             </table>
         </div>
     </div>
-@endsection
-@section('script')
-    @vite('resources/js/confirmDelete.js')
 @endsection
