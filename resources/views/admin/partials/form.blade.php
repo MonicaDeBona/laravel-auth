@@ -3,13 +3,9 @@
     @method($method)
     @if ($errors->any())
         <div class="alert alert-danger">
-            <ul>
-                <li>
-                    @foreach ($errors->all() as $error)
-                        {{ $error }}
-                    @endforeach
-                </li>
-            </ul>
+            <h6>
+                We were unable to process your submission due to errors. Please review and try again.
+            </h6>
         </div>
     @endif
     <h5 class="mb-4">
