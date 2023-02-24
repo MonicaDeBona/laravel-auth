@@ -8,7 +8,11 @@
             </div>
             <div class="card-body d-flex flex-column justify-content-center align-items-center">
                 <div class="card-image">
-                    <img src="{{ asset('storage/imgs/' . $project->image) }}" alt="" class="img-fluid">
+                    @if (str_starts_with($project->image, 'http'))
+                        <img src="{{ $project->image }}" alt="{{ $project->title }}" class="img-fluid">
+                    @else
+                        <img src="{{ asset('storage/' . $project->image) }}" alt="{{ $project->title }}" class="img-fluid">
+                    @endif
                 </div>
                 <p class="card-text text-center">{{ $project->content }}</p>
                 <hr>

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
 {
@@ -17,6 +18,7 @@ class ProjectController extends Controller
         'content.min' => 'Content must be at least :min characters',
         'project_date.required' => 'Please select a project date',
         'project_date.date' => 'Project date must be a valid date',
+        'image.required' => 'Choose an image'
     ];
 
     public function validationRules()
@@ -25,6 +27,7 @@ class ProjectController extends Controller
             'title' => 'required|unique:projects',
             'content' => 'required|min:10',
             'project_date' => 'required|date',
+            'image' => 'required|image|size:256'
         ];
     }
     /**
@@ -59,6 +62,7 @@ class ProjectController extends Controller
         $data = $request->validate($this->validationRules(), $this->customMessages);
         $data['author'] = Auth::user()->name;
         $data['slug'] = Str::slug($data['title']);
+        $data['image'] = Storage::put('imgs/', $data['image']);
         $newProject = new Project();
         $newProject->fill($data);
         $newProject->save();
@@ -144,7 +148,7 @@ class ProjectController extends Controller
     public function restore($id)
     {
         Project::where('id', $id)->withTrashed()->restore();
-        return redirect()->route('admin.projects.index')->with('alert-message', "Restored successfully")->with('alert-type', 'success');
+        return redirect()->route('admin.projects.index')->with('message', "Restored successfully")->with('alert-type', 'success');
     }
 
     /**
@@ -157,6 +161,6 @@ class ProjectController extends Controller
     public function forceDelete($id)
     {
         Project::where('id', $id)->withTrashed()->forceDelete();
-        return redirect()->route('admin.projects.index')->with('alert-message', "Project deleted permanently")->with('alert-type', 'success');
+        return redirect()->route('admin.projects.index')->with('message', "Project has been deleted permanently")->with('alert-type', 'success');
     }
 }

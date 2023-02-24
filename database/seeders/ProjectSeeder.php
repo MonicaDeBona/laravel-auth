@@ -25,7 +25,7 @@ class ProjectSeeder extends Seeder
             $newProject->author = $faker->name();
             $newProject->content = $faker->realTextBetween(500, 800);
             $newProject->project_date = $faker->dateTimeBetween('-1 year', 'now');
-            $newProject->image = 'project-cover.png';
+            $newProject->image = $faker->imageUrl();
             $newProject->save();
         }
     }
