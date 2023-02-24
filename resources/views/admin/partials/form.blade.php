@@ -28,13 +28,14 @@
             </div>
             <div class="form-outline w-25 mb-3">
                 <label for="project_image" class="form-label">Project image</label>
-                <input type="file" class="form-control" id="image" placeholder="Insert project's image"
-                    name="image" value="{{ old('image', $project->image) }}" required>
-                {{-- @error('title')
+                <input type="file" class="form-control @error('image') is-invalid @enderror" id="image"
+                    placeholder="Insert project's image" name="image" value="{{ old('image', $project->image) }}"
+                    required>
+                @error('image')
                     <div class="invalid-feedback">
                         {{ $message }}
                     </div>
-                @enderror --}}
+                @enderror
             </div>
             <div class="mb-3 w-25">
                 <label for="project_date" class="form-label">Project date</label>
