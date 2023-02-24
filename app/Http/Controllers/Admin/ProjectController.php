@@ -27,7 +27,7 @@ class ProjectController extends Controller
             'title' => 'required|unique:projects',
             'content' => 'required|min:10',
             'project_date' => 'required|date',
-            'image' => 'required|image|size:256'
+            'image' => 'required|image|max:300'
         ];
     }
     /**
@@ -110,6 +110,15 @@ class ProjectController extends Controller
         ];
 
         $data = $request->validate($newRules, $this->customMessages);
+
+        if ($request->hasFile('image')) {
+            if (!$project->isImageUrl()) {
+                Storage::delete($project->image);
+            }
+
+            $data['image'] = Storage::put('imgs/', $data['image']);
+        }
+
         $project->update($data);
         return redirect()->route('admin.projects.index', compact('project'))->with('message', "Project $project->title has been edited")->with('alert-type', 'info');
     }
@@ -122,6 +131,9 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
+        if (!$project->isImageUrl()) {
+            Storage::delete($project->image);
+        }
         $project->delete();
         return redirect()->route('admin.projects.index')->with('message', "Project $project->title has been deleted")->with('alert-type', 'danger');
     }

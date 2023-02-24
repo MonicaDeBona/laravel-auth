@@ -38,8 +38,8 @@
             </div>
             <div class="mb-3 w-25">
                 <label for="project_date" class="form-label">Project date</label>
-                <input type="datetime-local" class="form-control @error('project_date') is-invalid @enderror"
-                    id="project_date" name="project_date" value="{{ old('project_date', $project->project_date) }}">
+                <input type="date" class="form-control @error('project_date') is-invalid @enderror" id="project_date"
+                    name="project_date" value="{{ old('project_date', $project->project_date) }}">
                 @error('project_date')
                     <div class="invalid-feedback">
                         {{ $message }}

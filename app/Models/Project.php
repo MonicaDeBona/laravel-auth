@@ -22,4 +22,14 @@ class Project extends Model
     {
         return 'slug';
     }
+
+    /**
+     * Check if image is URl.
+     *
+     * @return boolean
+     */
+    public function isImageUrl()
+    {
+        return filter_var($this->image, FILTER_VALIDATE_URL);
+    }
 }

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('title', 150)->unique();
             $table->string('author', 50);
             $table->text('content');
-            $table->dateTime('project_date');
+            $table->date('project_date');
             $table->timestamps();
         });
     }
