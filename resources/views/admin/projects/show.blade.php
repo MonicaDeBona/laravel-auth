@@ -7,6 +7,9 @@
                 <h5 class="card-title">{{ $project->title }}</h5>
             </div>
             <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                <div class="card-image">
+                    <img src="{{ asset('storage/imgs/' . $project->image) }}" alt="" class="img-fluid">
+                </div>
                 <p class="card-text text-center">{{ $project->content }}</p>
                 <hr>
                 <p class="card-text text-center">

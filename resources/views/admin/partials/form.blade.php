@@ -1,4 +1,5 @@
-<form action="{{ route($routeName, $project) }}" method="POST" class="p-5 needs-validation" novalidate>
+<form action="{{ route($routeName, $project) }}" enctype="multipart/form-data" method="POST" class="p-5 needs-validation"
+    novalidate>
     @csrf
     @method($method)
     @if ($errors->any())
@@ -15,7 +16,7 @@
                 Author: <span class="fw-semibold">{{ Auth::user()->name }} </span>
             </h5>
             <div class="form-outline w-25 mb-3">
-                <label for="project_title" class="form-label">Project Title</label>
+                <label for="project_title" class="form-label">Project title</label>
                 <input type="text" class="form-control @error('title') is-invalid @enderror" id="title"
                     placeholder="Insert project's title" name="title" value="{{ old('title', $project->title) }}"
                     required>
@@ -24,6 +25,16 @@
                         {{ $message }}
                     </div>
                 @enderror
+            </div>
+            <div class="form-outline w-25 mb-3">
+                <label for="project_image" class="form-label">Project image</label>
+                <input type="file" class="form-control" id="image" placeholder="Insert project's image"
+                    name="image" value="{{ old('image', $project->image) }}" required>
+                {{-- @error('title')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                @enderror --}}
             </div>
             <div class="mb-3 w-25">
                 <label for="project_date" class="form-label">Project date</label>
