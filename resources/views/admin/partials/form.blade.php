@@ -1,5 +1,4 @@
-<form action="{{ route($routeName, $project) }}" enctype="multipart/form-data" method="POST" class="p-5 needs-validation"
-    novalidate>
+<form action="{{ route($routeName, $project) }}" enctype="multipart/form-data" method="POST" class="p-5 needs-validation">
     @csrf
     @method($method)
     @if ($errors->any())

@@ -33,7 +33,7 @@
                                     @csrf
                                     <button type="submit" class="btn btn-success" title="restore">Restore</button>
                                 </form>
-                                <form class="d-inline" action="{{ route('admin.projects.force-delete', $project->id) }}"
+                                <form class="d-inline" action="{{ route('admin.projects.force-delete', $project->slug) }}"
                                     method="POST">
                                     @csrf
                                     @method('DELETE')
